@@ -1,0 +1,27 @@
+name: solve-daily
+
+on:
+  # run automatically every 6 hours
+  schedule:
+    - cron: "0 */24 * * *"
+
+  # allows to manually run the job at any time
+  workflow_dispatch:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 6
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm start

@@ -1,9 +1,25 @@
 import fetch from "node-fetch";
+import * as path from "path";
+import * as fs from "fs";
+
+const getWordList_ = () =>
+  fetch(
+    "https://raw.githubusercontent.com/powerlanguage/guess-my-word/master/wordlist/sowpods.txt"
+  )
+    .then((res) => res.text())
+    .then((text) => text.split("\n").filter((word) => word.length === 5));
 
 export const getWordList = async () => {
-  const res = await fetch(
-    "https://raw.githubusercontent.com/powerlanguage/guess-my-word/master/wordlist/sowpods.txt"
-  ).then((res) => res.text());
+  const cachePath = path.join(__dirname, "../node_modules/wordList-cache.txt");
 
-  return res.split("\n").filter((word) => word.length === 5);
+  if (fs.existsSync(cachePath)) {
+    console.log("word list cache hit");
+    return fs.readFileSync(cachePath).toString().split("\n");
+  }
+
+  const wordList = await getWordList_();
+
+  fs.writeFileSync(cachePath, wordList.join("\n"));
+
+  return wordList;
 };

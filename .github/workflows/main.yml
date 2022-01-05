@@ -22,4 +22,7 @@ jobs:
 
       - run: pnpm lint
 
-      - run: pnpm start
+      - run: echo $GITHUB_REPOSITORY; pnpm start
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

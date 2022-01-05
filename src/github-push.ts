@@ -3,7 +3,7 @@ import * as fs from "fs";
 
 export const push = async (path: string, name: string, message = "push") => {
   const octokit = new Octokit({
-    auth: process.env.GITHUB_ACCESS_TOKEN,
+    auth: process.env.GITHUB_ACCESS_TOKEN ?? process.env.GITHUB_TOKEN,
   });
 
   const [owner, repo] = process.env.GITHUB_REPOSITORY!.split("/");

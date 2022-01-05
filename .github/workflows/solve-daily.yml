@@ -24,4 +24,14 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - name: cache word list
+        uses: actions/cache@v2
+        with:
+          path: node_modules/wordList-cache.txt
+          key: wordList-cache
+          restore-keys: wordList-cache
+
       - run: pnpm start
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

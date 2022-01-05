@@ -12,10 +12,8 @@ const getWordList_ = () =>
 export const getWordList = async () => {
   const cachePath = path.join(__dirname, "../node_modules/wordList-cache.txt");
 
-  if (fs.existsSync(cachePath)) {
-    console.log("word list cache hit");
+  if (fs.existsSync(cachePath))
     return fs.readFileSync(cachePath).toString().split("\n");
-  }
 
   const wordList = await getWordList_();
 

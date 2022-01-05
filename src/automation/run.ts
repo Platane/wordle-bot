@@ -1,4 +1,7 @@
 import puppeteer from "puppeteer";
+import * as path from "path";
+import { tmpdir } from "os";
+import { PuppeteerScreenRecorder } from "puppeteer-screen-recorder";
 import { isLineCorrect, Line } from "../type";
 import { getPlayedLines, getShareText, readGrid, submitWord } from "./utils";
 
@@ -13,6 +16,7 @@ export const run = async (
   const browser = await puppeteer.launch({
     //
     // headless: false,
+    defaultViewport: { width: 600, height: 600 },
   });
   const context = browser.defaultBrowserContext();
   context.overridePermissions("https://www.powerlanguage.co.uk", [
@@ -27,6 +31,13 @@ export const run = async (
   if (closeButton) await closeButton.click();
 
   await page.waitForTimeout(500);
+
+  const recordFile = path.join(
+    tmpdir(),
+    Math.random().toString(36).slice(-8) + ".mp4"
+  );
+  const recorder = new PuppeteerScreenRecorder(page, { fps: 60 });
+  await recorder.start(recordFile);
 
   const n = (await readGrid(page)).length;
 
@@ -59,9 +70,13 @@ export const run = async (
     }
   }
 
+  await page.waitForTimeout(200);
+
+  await recorder.stop();
+
   const sharedText = await getShareText(page);
 
   await browser.close();
 
-  return { sharedText, playedLines };
+  return { sharedText, playedLines, recordFile };
 };

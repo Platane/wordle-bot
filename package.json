@@ -8,7 +8,8 @@
   "dependencies": {
     "dotenv": "10.0.0",
     "node-fetch": "2.6.1",
-    "puppeteer": "13.0.1"
+    "puppeteer": "13.0.1",
+    "puppeteer-screen-recorder": "2.0.2"
   },
   "devDependencies": {
     "@types/node": "16.11.11",

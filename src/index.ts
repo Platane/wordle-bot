@@ -10,12 +10,11 @@ import { lineToString } from "./type";
 
   const res = await run(createSolver, wordList);
 
+  const fileName =
+    res.sharedText.match(/Wordle\s+\d+/)![0].replace(/\W+/g, "-") + ".mp4";
+
   const commitMessage =
     res.sharedText + "\n\n" + res.playedLines.map(lineToString).join("\n");
 
-  const url = await push(
-    res.recordFile,
-    res.sharedText.split("X")[0].trim().replace(/\s+/g, "-") + ".mp4",
-    commitMessage
-  );
+  const url = await push(res.recordFile, fileName, commitMessage);
 })();

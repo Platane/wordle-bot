@@ -26,11 +26,6 @@ export const getPlayedLines = async (page: puppeteer.Page) => {
   return grid.filter((l) => l[0].evaluation !== "empty") as Line[];
 };
 
-type Tile = {
-  letter: string;
-  evaluation: "empty" | "tbd" | "absent" | "present" | "correct";
-};
-
 export const readGrid = async (page: puppeteer.Page) => {
   const $board = await page.$("pierce/#board");
 
@@ -43,12 +38,12 @@ export const readGrid = async (page: puppeteer.Page) => {
       return Promise.all(
         $tiles.map(async ($tile) => {
           const letter = await page.evaluate((el) => el.textContent, $tile);
-          const evaluation = await page.evaluate(
+          const evaluation = (await page.evaluate(
             (el) => el.getAttribute("data-state"),
             $tile
-          );
+          )) as "empty" | "tbd" | "absent" | "present" | "correct";
 
-          return { letter, evaluation } as Tile;
+          return { letter, evaluation };
         })
       );
     }) ?? []

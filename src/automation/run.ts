@@ -18,25 +18,32 @@ export const run = async (
     // headless: false,
     defaultViewport: { width: 600, height: 600 },
   });
+
+  // allows to read clipboard
   const context = browser.defaultBrowserContext();
   context.overridePermissions("https://www.powerlanguage.co.uk", [
     "clipboard-read",
   ]);
+
   const page = await browser.newPage();
   await page.goto("https://www.powerlanguage.co.uk/wordle/");
-
   await page.waitForTimeout(500);
 
+  // close pop up
   const closeButton = await page.$("pierce/.close-icon");
-  if (closeButton) await closeButton.click();
-
-  await page.waitForTimeout(500);
+  if (closeButton) {
+    await closeButton.click();
+    await page.waitForTimeout(200);
+  }
 
   const recordFile = path.join(
     tmpdir(),
     Math.random().toString(36).slice(-8) + ".mp4"
   );
-  const recorder = new PuppeteerScreenRecorder(page, { fps: 60 });
+  const recorder = new PuppeteerScreenRecorder(page, {
+    fps: 60,
+    videoFrame: { width: 400, height: 400 },
+  });
   await recorder.start(recordFile);
 
   const n = (await readGrid(page)).length;

@@ -13,15 +13,24 @@
     "puppeteer-screen-recorder": "2.0.2"
   },
   "devDependencies": {
+    "@sucrase/jest-plugin": "2.2.0",
+    "@types/jest": "27.4.0",
     "@types/node": "16.11.11",
     "@types/node-fetch": "2.5.11",
+    "jest": "27.4.7",
     "prettier": "2.5.1",
     "sucrase": "3.20.3",
     "typescript": "4.5.4"
   },
+  "jest": {
+    "transform": {
+      "\\.(js|jsx|ts|tsx)$": "@sucrase/jest-plugin"
+    }
+  },
   "scripts": {
     "start": "sucrase-node src/index.ts",
     "type": "tsc --noEmit",
+    "test": "jest",
     "lint": "prettier -c '**/*.{ts,tsx,js,jsx,json,md,html}' '!**/{build,dist}/**'"
   }
 }

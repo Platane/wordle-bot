@@ -12,7 +12,21 @@ import { getWordList } from "./wordlist";
   const url = await push(
     res.recordFile,
     res.sharedText.split("X")[0].trim().replace(/\s+/g, "-") + ".mp4",
-    res.sharedText
+    res.sharedText +
+      "\n\n" +
+      res.playedLines
+        .map((l) =>
+          l
+            .map(
+              (t) =>
+                t.letter +
+                ((t.evaluation === "correct" && "🟩") ||
+                  (t.evaluation === "present" && "🟨") ||
+                  "⬜")
+            )
+            .join(" ")
+        )
+        .join("\n")
   );
 
   console.log(url);

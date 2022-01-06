@@ -9,7 +9,7 @@ export const createSolver = (words: string[]) => {
   };
 
   const getNextWord = () => {
-    return validWords[Math.floor(Math.random() * words.length)];
+    return validWords[Math.floor(Math.random() * validWords.length)];
   };
 
   return { reportLine, getNextWord };
@@ -50,7 +50,7 @@ export const evaluateWord = (solution: string, word: string, target: Line) => {
   for (let i = 0; i < word.length; i++)
     if (av[i])
       for (let j = 0; j < word.length; j++)
-        if (word[j] === solution[i]) {
+        if (word[j] === solution[i] && target[j].evaluation === "absent") {
           av[i] = false;
           target[j].evaluation = "present";
           break;

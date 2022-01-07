@@ -18,12 +18,6 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm type
-
-      - run: pnpm lint
-
-      - run: pnpm test
-
       - name: cache word list
         uses: actions/cache@v2
         with:
@@ -31,7 +25,8 @@ jobs:
           key: wordList-cache
           restore-keys: wordList-cache
 
-      - run: pnpm start
-        env:
-          GITHUB_REPOSITORY: ${{ github.repository }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: pnpm type
+
+      - run: pnpm lint
+
+      - run: pnpm test

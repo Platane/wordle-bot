@@ -34,7 +34,14 @@ export const isValidWord = (line: Line, word: string) => {
 };
 
 const av = [false, false, false, false, false];
-export const evaluateWord = (solution: string, word: string, target: Line) => {
+export const evaluateWord = (
+  solution: string,
+  word: string,
+  target: Line = Array.from({ length: word.length }, () => ({
+    evaluation: "correct",
+    letter: "x",
+  }))
+) => {
   for (let i = 0; i < word.length; i++) {
     target[i].letter = word[i];
 
@@ -55,4 +62,6 @@ export const evaluateWord = (solution: string, word: string, target: Line) => {
           target[j].evaluation = "present";
           break;
         }
+
+  return target;
 };

@@ -1,5 +1,6 @@
 import ParkMiller from "park-miller";
-import { createSolver, evaluateWord } from "../solver";
+import { evaluateWord } from "../solver";
+import { createSolver } from "../solver/index";
 import { isLineCorrect } from "../type";
 import { getWordList } from "../wordlist";
 
@@ -11,7 +12,7 @@ it("solver benchmark", async () => {
   const words = await getWordList();
 
   const solutions = Array.from(
-    { length: 200 },
+    { length: 100 },
     () => words[Math.floor(words.length * Math.random())]
   );
 

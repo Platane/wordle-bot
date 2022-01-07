@@ -37,7 +37,10 @@ export const readGrid = async (page: puppeteer.Page) => {
 
       return Promise.all(
         $tiles.map(async ($tile) => {
-          const letter = await page.evaluate((el) => el.textContent, $tile);
+          const letter = (await page.evaluate(
+            (el) => el.textContent,
+            $tile
+          )) as string;
           const evaluation = (await page.evaluate(
             (el) => el.getAttribute("data-state"),
             $tile

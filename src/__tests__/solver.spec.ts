@@ -5,24 +5,16 @@ import { getWordList } from "../wordlist";
 it("solver", async () => {
   const words = await getWordList();
 
-  const solution = words[Math.floor(Math.random() * words.length)];
+  const solution = words[0];
 
   const solver = createSolver(words);
 
   const lines: Line[] = [];
 
-  for (let i = 10; i--; ) {
+  for (let i = 16; i--; ) {
     const w = solver.getNextWord();
 
-    const eLine: Line = [
-      { letter: "x", evaluation: "absent" },
-      { letter: "x", evaluation: "absent" },
-      { letter: "x", evaluation: "absent" },
-      { letter: "x", evaluation: "absent" },
-      { letter: "x", evaluation: "absent" },
-    ];
-
-    evaluateWord(solution, w, eLine);
+    const eLine = evaluateWord(solution, w);
 
     solver.reportLine(eLine);
 

@@ -15,6 +15,8 @@ it("solver benchmark", async () => {
     () => words[Math.floor(words.length * Math.random())]
   );
 
+  const a = Date.now();
+
   const ns: number[] = [];
   for (const solution of solutions) {
     const solver = createSolver(words);
@@ -33,12 +35,15 @@ it("solver benchmark", async () => {
     ns.push(n);
   }
 
+  const dt = Date.now() - a;
+
   const histogram = Array.from({ length: 30 }, () => 0);
   ns.forEach((n) => (histogram[n] = histogram[n] + 1));
 
   console.log(
-    "number of guess before solution: " +
-      mean(ns) +
+    `number of guess before solution: ${mean(ns)} (${(dt / 200).toFixed(
+      0
+    )}ms per game)` +
       "\n\n" +
       printHistogram(histogram)
   );

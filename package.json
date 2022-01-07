@@ -10,7 +10,8 @@
     "dotenv": "10.0.0",
     "node-fetch": "2.6.1",
     "puppeteer": "13.0.1",
-    "puppeteer-screen-recorder": "2.0.2"
+    "puppeteer-screen-recorder": "2.0.2",
+    "twitter-api-v2": "1.9.0"
   },
   "devDependencies": {
     "@sucrase/jest-plugin": "2.2.0",
@@ -28,6 +29,7 @@
     }
   },
   "scripts": {
+    "twitter-auth": "sucrase-node src/twitter-auth.ts",
     "start": "sucrase-node src/index.ts",
     "type": "tsc --noEmit",
     "test": "jest",

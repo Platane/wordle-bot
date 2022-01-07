@@ -4,6 +4,7 @@ import { createSolver } from "./solver";
 import { push } from "./github-push";
 import { getWordList } from "./wordlist";
 import { lineToString } from "./type";
+import { twitterClient } from "./twitter";
 
 (async () => {
   const wordList = await getWordList();
@@ -17,4 +18,15 @@ import { lineToString } from "./type";
     res.sharedText + "\n\n" + res.playedLines.map(lineToString).join("\n");
 
   const url = await push(res.recordFile, fileName, commitMessage);
+
+  // twitter
+  {
+    const { data: firstTweet } = await twitterClient.v2.tweet(res.sharedText);
+    // const mediaId = await twitterClient.v1.uploadMedia(res.recordFile);
+    await twitterClient.v2.tweet({
+      text: `SPOILER: ${url}`,
+      // media: { media_ids: [mediaId] },
+      reply: { in_reply_to_tweet_id: firstTweet.id },
+    });
+  }
 })();

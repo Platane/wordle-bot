@@ -3,9 +3,8 @@ import { createSolver, evaluateWord } from "../solver";
 import { isLineCorrect } from "../type";
 import { getWordList } from "../wordlist";
 
+jest.setTimeout(60 * 1000);
 it("solver benchmark", async () => {
-  jest.setTimeout(60 * 1000);
-
   const pm = new ParkMiller(10);
   Math.random = () => pm.float();
 

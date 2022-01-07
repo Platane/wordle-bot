@@ -1,6 +1,9 @@
 # Wordle Bot
 
-A bot who solve the daily [powerlanguage.co.uk/wordle](https://www.powerlanguage.co.uk/wordle/) and post its result on twitter.
+A bot who solves the daily [powerlanguage.co.uk/wordle](https://www.powerlanguage.co.uk/wordle/) and posts the result on twitter.
+
+- 🐦 [twitter account](https://twitter.com/OasisPlatane)
+- 📚 [result archive](https://github.com/Platane/wordle-bot/tree/output)
 
 # Attribution
 

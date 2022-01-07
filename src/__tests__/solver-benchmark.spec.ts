@@ -4,6 +4,8 @@ import { isLineCorrect } from "../type";
 import { getWordList } from "../wordlist";
 
 it("solver benchmark", async () => {
+  jest.setTimeout(60 * 1000);
+
   const pm = new ParkMiller(10);
   Math.random = () => pm.float();
 
@@ -45,7 +47,7 @@ it("solver benchmark", async () => {
 
 const mean = (arr: number[]) => arr.reduce((a, b) => a + b, 0) / arr.length;
 const printHistogram = (arr: number[]) => {
-  const h = 18;
+  const h = 26;
   const max = Math.max(...arr);
 
   return arr

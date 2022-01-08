@@ -4,7 +4,7 @@ import { createSolver } from "./solver";
 import { push } from "./github-push";
 import { getWordList } from "./wordlist";
 import { lineToString } from "./type";
-import { twitterClient } from "./twitter";
+import TwitterApi from "twitter-api-v2";
 
 (async () => {
   const wordList = await getWordList();
@@ -21,6 +21,14 @@ import { twitterClient } from "./twitter";
 
   // twitter
   {
+    const twitterClient = new TwitterApi({
+      appKey: process.env.TWITTER_API_KEY!,
+      appSecret: process.env.TWITTER_API_KEY_SECRET!,
+
+      accessToken: process.env.TWITTER_ACCESS_TOKEN!,
+      accessSecret: process.env.TWITTER_ACCESS_SECRET!,
+    });
+
     const { data: firstTweet } = await twitterClient.v2.tweet(res.sharedText);
     // const mediaId = await twitterClient.v1.uploadMedia(res.recordFile);
     await twitterClient.v2.tweet({

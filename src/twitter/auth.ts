@@ -67,8 +67,6 @@ const CALLBACK_URL = "http://localhost:4194/callback";
     console.log(data);
   }
 
-  console.log({ accessToken, refreshToken });
-
   writeDotEnv(path.join(__dirname, "../../.env"), {
     TWITTER_ACCESS_TOKEN: accessToken,
     TWITTER_REFRESH_TOKEN: refreshToken!,

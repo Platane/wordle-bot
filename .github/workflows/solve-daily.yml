@@ -1,9 +1,9 @@
 name: solve-daily
 
 on:
-  # run automatically every 6 hours
+  # run automatically every day at 9:00 AM
   schedule:
-    - cron: "0 */24 * * *"
+    - cron: "0 9 * * *"
 
   # allows to manually run the job at any time
   workflow_dispatch:

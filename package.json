@@ -8,6 +8,7 @@
   "dependencies": {
     "@octokit/core": "3.5.1",
     "dotenv": "10.0.0",
+    "github-secret-dotenv": "1.1.4",
     "node-fetch": "2.6.1",
     "park-miller": "1.1.0",
     "puppeteer": "13.0.1",
@@ -30,7 +31,8 @@
     }
   },
   "scripts": {
-    "twitter-auth": "sucrase-node src/twitter-auth.ts",
+    "twitter-auth": "sucrase-node src/twitter/auth.ts",
+    "twitter-refresh": "sucrase-node src/twitter/refresh.ts",
     "start": "sucrase-node src/index.ts",
     "type": "tsc --noEmit",
     "test": "jest",

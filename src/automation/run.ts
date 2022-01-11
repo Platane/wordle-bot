@@ -36,6 +36,7 @@ export const run = async (
     await page.waitForTimeout(200);
   }
 
+  // start recording the screen
   const recordFile = path.join(
     tmpdir(),
     Math.random().toString(36).slice(-8) + ".mp4"
@@ -46,10 +47,14 @@ export const run = async (
   });
   await recorder.start(recordFile);
 
+  // get the number of tries
   const n = (await readGrid(page)).length;
 
+  // list of played lines, should be empty on a new page
+  // played lines will be added as they are played
   const playedLines = await getPlayedLines(page);
 
+  // init solver
   let solver = createSolver(wordList);
   playedLines.forEach(solver.reportLine);
 
@@ -58,9 +63,12 @@ export const run = async (
     const word = solver.getNextWord();
     try {
       await submitWord(page, word);
-    } catch (err: any) {
-      if (err.message === "Not in word list") {
-        // reset solver with the word
+    } catch (err) {
+      // if we get this error,
+      // remove the forbidden word from the word list
+      // and restart the solver
+      if (err instanceof Error && err.message === "Not in word list") {
+        console.warn(`"${word}" is not in word list`);
         wordList.splice(wordList.indexOf(word), 1);
         createSolver(wordList);
         playedLines.forEach(solver.reportLine);
@@ -81,6 +89,7 @@ export const run = async (
 
   await recorder.stop();
 
+  // read the text that you get when you click the "share" button
   const sharedText = await getShareText(page);
 
   await browser.close();

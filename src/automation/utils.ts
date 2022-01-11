@@ -37,7 +37,10 @@ export const readGrid = async (page: puppeteer.Page) => {
 
       return Promise.all(
         $tiles.map(async ($tile) => {
-          const letter = await page.evaluate((el) => el.textContent, $tile);
+          const letter: string = await page.evaluate(
+            (el) => el.textContent,
+            $tile
+          );
           const evaluation = (await page.evaluate(
             (el) => el.getAttribute("data-state"),
             $tile
@@ -52,14 +55,14 @@ export const readGrid = async (page: puppeteer.Page) => {
   return grid;
 };
 
-export const clearSubmission = async (page: puppeteer.Page) => {
+const clearSubmission = async (page: puppeteer.Page) => {
   if ((await readGrid(page)).flat().some((t) => t.evaluation === "tbd")) {
     await clickKey(page, "←");
     await clearSubmission(page);
   }
 };
 
-export const clickKey = async (page: puppeteer.Page, key: string) => {
+const clickKey = async (page: puppeteer.Page, key: string) => {
   const $key = await page.$(`pierce/#keyboard [data-key="${key}"]`);
   await $key?.click({ delay });
 };
@@ -90,4 +93,4 @@ export const submitWord = async (page: puppeteer.Page, word: string) => {
   }
 };
 
-const delay = 40;
+const delay = 30;

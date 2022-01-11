@@ -5,11 +5,12 @@ export const getShareText = async (page: puppeteer.Page): Promise<string> => {
   const shareButton = await page.$("pierce/#share-button");
 
   if (!shareButton) {
-    page.waitForTimeout(100);
+    await page.waitForTimeout(100);
     return getShareText(page);
   }
 
-  await shareButton.click();
+  await shareButton.click({ delay });
+  await page.waitForTimeout(100);
 
   const clipboardContent = await page.evaluate(() =>
     navigator.clipboard.readText()

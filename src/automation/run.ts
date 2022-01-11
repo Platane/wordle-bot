@@ -13,6 +13,7 @@ export const run = async (
   createSolver: (wordList: string[]) => Solver,
   wordList: string[]
 ) => {
+  const WORDLE_URL = "https://www.powerlanguage.co.uk/wordle";
   const browser = await puppeteer.launch({
     //
     // headless: false,
@@ -21,12 +22,10 @@ export const run = async (
 
   // allows to read clipboard
   const context = browser.defaultBrowserContext();
-  context.overridePermissions("https://www.powerlanguage.co.uk", [
-    "clipboard-read",
-  ]);
+  context.overridePermissions(new URL(WORDLE_URL).origin, ["clipboard-read"]);
 
   const page = await browser.newPage();
-  await page.goto("https://www.powerlanguage.co.uk/wordle/");
+  await page.goto(WORDLE_URL);
   await page.waitForTimeout(500);
 
   // close pop up

@@ -85,6 +85,12 @@ export const submitWord = async (page: puppeteer.Page, word: string) => {
 
   await page.waitForTimeout(delay);
 
+  await detectError(page);
+};
+
+const detectError = async (page: puppeteer.Page) => {
+  await page.waitForTimeout(delay);
+
   const toasterZone = await page.$("pierce/#game-toaster");
   const toast = await toasterZone?.$("pierce/.toast");
 

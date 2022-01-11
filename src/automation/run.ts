@@ -69,7 +69,7 @@ export const run = async (
       if (err instanceof Error && err.message === "Not in word list") {
         console.warn(`"${word}" is not in word list`);
         wordList.splice(wordList.indexOf(word), 1);
-        createSolver(wordList);
+        solver = createSolver(wordList);
         playedLines.forEach(solver.reportLine);
       } else {
         throw err;

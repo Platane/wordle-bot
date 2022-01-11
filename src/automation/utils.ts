@@ -1,6 +1,21 @@
 import puppeteer from "puppeteer";
 import { Line } from "../type";
 
+export const mockClipboard = async (page: puppeteer.Page) => {
+  await page.evaluateOnNewDocument(() => {
+    const original = navigator.clipboard.writeText;
+    navigator.clipboard.writeText = (text) => {
+      (window as any).__copiedText = text;
+      return original.call(navigator.clipboard, text);
+    };
+  });
+};
+
+export const readClipboard = async (page: puppeteer.Page) =>
+  await page.evaluate(() => {
+    return (window as any).__copiedText;
+  });
+
 export const getShareText = async (page: puppeteer.Page): Promise<string> => {
   const shareButton = await page.$("pierce/#share-button");
 
@@ -10,11 +25,8 @@ export const getShareText = async (page: puppeteer.Page): Promise<string> => {
   }
 
   await shareButton.click({ delay });
-  await page.waitForTimeout(100);
 
-  const clipboardContent = await page.evaluate(() =>
-    navigator.clipboard.readText()
-  );
+  const clipboardContent = await readClipboard(page);
 
   return clipboardContent;
 };

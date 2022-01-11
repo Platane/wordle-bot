@@ -3,7 +3,13 @@ import * as path from "path";
 import { tmpdir } from "os";
 import { PuppeteerScreenRecorder } from "puppeteer-screen-recorder";
 import { isLineCorrect, Line } from "../type";
-import { getPlayedLines, getShareText, readGrid, submitWord } from "./utils";
+import {
+  getPlayedLines,
+  getShareText,
+  mockClipboard,
+  readGrid,
+  submitWord,
+} from "./utils";
 
 type Solver = {
   getNextWord: () => string;
@@ -20,11 +26,8 @@ export const run = async (
     defaultViewport: { width: 600, height: 600 },
   });
 
-  // allows to read clipboard
-  const context = browser.defaultBrowserContext();
-  context.overridePermissions(new URL(WORDLE_URL).origin, ["clipboard-read"]);
-
   const page = await browser.newPage();
+  await mockClipboard(page);
   await page.goto(WORDLE_URL);
   await page.waitForTimeout(500);
 

@@ -8,7 +8,12 @@ it("should solve wordle with automation", async () => {
     reportLine: () => undefined,
   });
 
-  const { recordFile } = await run(createSolver, await getWordList());
+  const { recordFile, sharedText } = await run(
+    createSolver,
+    await getWordList()
+  );
 
   expect(recordFile).toBeDefined();
+  expect(sharedText).toBeDefined();
+  expect(sharedText).not.toBe("");
 });

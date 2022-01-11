@@ -9,6 +9,12 @@ import { readPackageJson } from "github-secret-dotenv/lib/readPackageJson";
 
 const CALLBACK_URL = "http://localhost:4194/callback";
 
+/**
+ * oauth2 flow to generate a new access token
+ * at some point, the user is asked to visit a webpage to finish the oauth flow
+ *
+ * saves the new refresh token and the access token to the .env file and to github secret
+ */
 (async () => {
   const client = new TwitterApi({
     clientId: process.env.TWITTER_CLIENT_ID!,
@@ -56,6 +62,7 @@ const CALLBACK_URL = "http://localhost:4194/callback";
     client: client0,
     accessToken,
     refreshToken,
+    expiresIn,
   } = await client.loginWithOAuth2({
     code: code!,
     codeVerifier: authLink.codeVerifier,
@@ -64,7 +71,7 @@ const CALLBACK_URL = "http://localhost:4194/callback";
 
   {
     const { data } = await client0.currentUserV2();
-    console.log(data);
+    console.log(data, { expiresIn });
   }
 
   writeDotEnv(path.join(__dirname, "../../.env"), {

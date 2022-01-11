@@ -1,10 +1,16 @@
 import * as path from "path";
 import TwitterApi from "twitter-api-v2";
-import "dotenv/config";
 import { writeDotEnv } from "./writeDotEnv";
 import { createSecretUpdater } from "github-secret-dotenv/lib/github";
 import { readPackageJson } from "github-secret-dotenv/lib/readPackageJson";
+import "dotenv/config";
 
+/**
+ * reads the refresh token from the env var ( either .env or as env var )
+ * gets a new access token from the refresh token
+ *
+ * saves the new refresh token and the access token to the .env file and to github secret
+ */
 (async () => {
   const client = new TwitterApi({
     clientId: process.env.TWITTER_CLIENT_ID!,
@@ -15,11 +21,12 @@ import { readPackageJson } from "github-secret-dotenv/lib/readPackageJson";
     client: client0,
     accessToken,
     refreshToken,
+    expiresIn,
   } = await client.refreshOAuth2Token(process.env.TWITTER_REFRESH_TOKEN!);
 
   {
     const { data } = await client0.currentUserV2();
-    console.log(data);
+    console.log(data, { expiresIn });
   }
 
   writeDotEnv(path.join(__dirname, "../../.env"), {

@@ -13,7 +13,7 @@ The bot launch a browser instance with pupetteer and acts like a regular user.
 
 ## Solver
 
-The [solver algorithm](src/solver.ts) is quite limited at the moment. It loses frequently.
+The [solver algorithm](src/solver-simple/index.ts) is quite limited at the moment. It loses frequently.
 
 # Attribution
 

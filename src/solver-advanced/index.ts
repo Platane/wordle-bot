@@ -11,7 +11,7 @@ import {
 } from "./constraint";
 import { Evaluation, lineToU } from "./type";
 
-const CANDIDATE_ANY_SAMPLE_N = 400;
+const CANDIDATE_ANY_SAMPLE_N = 1000;
 const CANDIDATE_VALID_SAMPLE_N = 200;
 const REFERENCE_SAMPLE_N = 5000;
 
@@ -47,8 +47,8 @@ export const createSolver = (_words: string[]) => {
 
     scoreCache.clear();
 
-    for (let i = Math.min(REFERENCE_SAMPLE_N, words.length); i--; ) {
-      const solution = words[i];
+    for (let i = Math.min(REFERENCE_SAMPLE_N, validWords.length); i--; ) {
+      const solution = validWords[i];
 
       evaluateWord(solution, w, evaluation);
 

@@ -8,7 +8,7 @@ import { evaluateWord, isLineCorrect } from "../../solver-simple";
 it("solver", async () => {
   const words = await getWordList();
 
-  mockMathRandom(9987);
+  mockMathRandom();
 
   const solution = pickRandom(words);
 

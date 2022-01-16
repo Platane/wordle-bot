@@ -1,6 +1,6 @@
-import { createSolver, evaluateWord } from "../solver";
-import { isLineCorrect, Line, lineToString } from "../type";
-import { getWordList } from "../wordlist";
+import { createSolver, evaluateWord, isLineCorrect } from "../index";
+import { Line, lineToString } from "../../type";
+import { getWordList } from "../../wordlist";
 
 it("solver", async () => {
   const words = await getWordList();

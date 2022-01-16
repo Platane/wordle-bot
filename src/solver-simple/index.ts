@@ -1,4 +1,4 @@
-import { Line } from "./type";
+import { Line } from "../type";
 
 export const createSolver = (words: string[]) => {
   const validWords = [...words];
@@ -8,9 +8,7 @@ export const createSolver = (words: string[]) => {
       if (!isValidWord(line, validWords[i])) validWords.splice(i, 1);
   };
 
-  const getNextWord = () => {
-    return validWords[Math.floor(Math.random() * validWords.length)];
-  };
+  const getNextWord = () => validWords[0];
 
   return { reportLine, getNextWord };
 };
@@ -65,3 +63,6 @@ export const evaluateWord = (
 
   return target;
 };
+
+export const isLineCorrect = (line: Line) =>
+  line.every((t) => t.evaluation === "correct");

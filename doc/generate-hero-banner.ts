@@ -1,8 +1,12 @@
 import * as path from "path";
 import * as fs from "fs";
 import { getWordList } from "../src/wordlist";
-import { createSolver, evaluateWord } from "../src/solver";
-import { evaluationToSquare, isLineCorrect } from "../src/type";
+import {
+  createSolver,
+  evaluateWord,
+  isLineCorrect,
+} from "../src/solver-simple";
+import { evaluationToSquare } from "../src/type";
 
 (async () => {
   const wordList = (await getWordList()).slice(0, 2000);

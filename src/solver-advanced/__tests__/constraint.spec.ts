@@ -1,5 +1,6 @@
 import ParkMiller from "park-miller";
-import { evaluateWord } from "..";
+import { evaluateWord, isValidWord } from "../../solver-simple";
+import { pickRandom } from "../../utils.array";
 import { getWordList } from "../../wordlist";
 import {
   addConstraintLine,
@@ -67,6 +68,43 @@ it("should add required", () => {
   ]);
 
   expect(c.required.size).toBe(1);
+});
+
+xit("should be isomorphic to simple isValid", async () => {
+  const words = await getWordList();
+
+  const pm = new ParkMiller(1125930121009);
+  Math.random = () => pm.float();
+
+  for (let i = 200; i--; ) {
+    const solution = words[Math.floor(Math.random() * words.length)];
+    const candidates = Array.from(
+      { length: Math.floor(Math.random() * 10) },
+      () => pickRandom(words)
+    );
+
+    const lines = candidates.map((candidate) =>
+      evaluateWord(solution, candidate)
+    );
+    const c = createEmptyConstraint(words[0].length);
+    lines
+      .map(lineToU)
+      .forEach(({ u, evaluation }) => addConstraintLine(c, u, evaluation));
+
+    for (const w of words) {
+      if (
+        isValid(c, wordToU(w)) !== lines.every((line) => isValidWord(line, w))
+      ) {
+        console.log(c, lines);
+
+        debugger;
+
+        isValid(c, wordToU(w));
+
+        expect(false).toBe(true);
+      }
+    }
+  }
 });
 
 it("always valid", async () => {

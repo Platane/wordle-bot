@@ -1,6 +1,6 @@
 import { alphabet, Evaluation, Letter } from "./type";
 
-export type C = {
+export type Constraint = {
   required: Map<Letter, number>;
   slots: ({ values: Set<Letter> } & (
     | { value: undefined }
@@ -15,10 +15,10 @@ export const createEmptyConstraint = (
   ({
     slots: Array.from({ length }, () => ({ values: new Set(_alphabet) })),
     required: new Map(),
-  } as C);
+  } as Constraint);
 
 export const copyConstraint = (
-  c: C,
+  c: Constraint,
   target = createEmptyConstraint(c.slots.length)
 ) => {
   for (let j = c.slots.length; j--; ) {
@@ -35,7 +35,7 @@ export const copyConstraint = (
 };
 
 export const addConstraintLine = (
-  c: C,
+  c: Constraint,
   word: ArrayLike<Letter>,
   evaluation: Evaluation[]
 ) => {
@@ -98,7 +98,7 @@ export const addConstraintLine = (
   }
 };
 
-export const reduceConstraint = (c: C): void => {
+export const reduceConstraint = (c: Constraint): void => {
   for (const [letter, count] of c.required) {
     let jValid = -1;
 
@@ -126,13 +126,13 @@ export const reduceConstraint = (c: C): void => {
   }
 };
 
-export const isValid = (c: C, word: ArrayLike<Letter>) => {
+export const isValid = (c: Constraint, word: ArrayLike<Letter>) => {
   for (let j = word.length; j--; ) {
     const slot = c.slots[j];
     if (!slot.values.has(word[j])) return false;
   }
 
-  for (const [letter, requiredCount] of c.required.entries()) {
+  for (const [letter, requiredCount] of c.required) {
     let count = 0;
     for (let j = word.length; j--; )
       if (word[j] === letter && c.slots[j].value === undefined) count++;

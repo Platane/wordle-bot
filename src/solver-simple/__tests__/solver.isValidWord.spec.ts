@@ -1,5 +1,5 @@
-import { isValidWord } from "../solver";
-import { Line, lineToString } from "../type";
+import { isValidWord } from "../index";
+import { Line, lineToString } from "../../type";
 
 (
   [

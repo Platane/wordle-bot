@@ -1,10 +1,10 @@
 import "dotenv/config";
 import { run } from "./automation/run";
-import { createSolver } from "./solver";
+import { createSolver } from "./solver-advanced";
 import { push } from "./github-push";
 import { getWordList } from "./wordlist";
-import { lineToString } from "./type";
 import { tweetResult } from "./twitter/client";
+import { lineToString } from "./type";
 
 (async () => {
   const wordList = await getWordList();

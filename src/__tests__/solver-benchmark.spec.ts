@@ -1,8 +1,9 @@
-import ParkMiller from "park-miller";
 import { createSolver as createSimpleSolver } from "../solver-simple";
 import { createSolver as createAdvancedSolver } from "../solver-advanced";
 import { evaluateWord, isLineCorrect } from "../solver-simple";
 import { getWordList } from "../wordlist";
+import { pickRandom } from "../utils.array";
+import { mockMathRandom } from "../utils-pseudoRandom";
 
 jest.setTimeout(60 * 1000);
 
@@ -17,19 +18,12 @@ it("solver-advanced benchmark", async () => {
   const words = await getWordList();
   const solutions = getSolutions(words);
 
-  const pm = new ParkMiller(10);
-  Math.random = () => pm.float();
-
   run(createAdvancedSolver, words, solutions, "solver advanced");
 });
 
 const getSolutions = (words: string[]) => {
-  const pm = new ParkMiller(10);
-  Math.random = () => pm.float();
-  return Array.from(
-    { length: 500 },
-    () => words[Math.floor(words.length * Math.random())]
-  );
+  mockMathRandom(999111888);
+  return Array.from({ length: 16 }, () => pickRandom(words));
 };
 
 const run = (
@@ -38,8 +32,7 @@ const run = (
   solutions: string[],
   label = ""
 ) => {
-  const pm = new ParkMiller(10131828);
-  Math.random = () => pm.float();
+  mockMathRandom(444999666);
 
   const a = Date.now();
 
@@ -68,9 +61,9 @@ const run = (
 
   console.log(
     `${label}\n` +
-      `number of guess before solution: ${mean(ns)} (${(dt / 200).toFixed(
-        0
-      )}ms per game)` +
+      `number of guess before solution: ${mean(ns)} (${(
+        dt / solutions.length
+      ).toFixed(0)}ms per game)` +
       "\n\n" +
       printHistogram(histogram)
   );

@@ -1,11 +1,15 @@
 import { createSolver, evaluateWord, isLineCorrect } from "../index";
 import { Line, lineToString } from "../../type";
 import { getWordList } from "../../wordlist";
+import { pickRandom } from "../../utils.array";
+import { mockMathRandom } from "../../utils-pseudoRandom";
 
 it("solver", async () => {
   const words = await getWordList();
 
-  const solution = words[Math.floor(Math.random() * words.length)];
+  mockMathRandom();
+
+  const solution = pickRandom(words);
 
   const solver = createSolver(words);
 
@@ -14,19 +18,11 @@ it("solver", async () => {
   for (let i = 10; i--; ) {
     const w = solver.getNextWord();
 
-    const eLine: Line = [
-      { letter: "x", evaluation: "absent" },
-      { letter: "x", evaluation: "absent" },
-      { letter: "x", evaluation: "absent" },
-      { letter: "x", evaluation: "absent" },
-      { letter: "x", evaluation: "absent" },
-    ];
+    const line = evaluateWord(solution, w);
 
-    evaluateWord(solution, w, eLine);
+    solver.reportLine(line);
 
-    solver.reportLine(eLine);
-
-    lines.push(eLine);
+    lines.push(line);
   }
 
   console.log(solution + "\n" + lines.map(lineToString).join("\n"));

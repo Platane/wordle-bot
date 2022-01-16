@@ -1,5 +1,5 @@
-import ParkMiller from "park-miller";
-import { evaluateWord, isValidWord } from "../../solver-simple";
+import { evaluateWord } from "../../solver-simple";
+import { mockMathRandom } from "../../utils-pseudoRandom";
 import { pickRandom } from "../../utils.array";
 import { getWordList } from "../../wordlist";
 import {
@@ -70,58 +70,20 @@ it("should add required", () => {
   expect(c.required.size).toBe(1);
 });
 
-xit("should be isomorphic to simple isValid", async () => {
-  const words = await getWordList();
-
-  const pm = new ParkMiller(1125930121009);
-  Math.random = () => pm.float();
-
-  for (let i = 200; i--; ) {
-    const solution = words[Math.floor(Math.random() * words.length)];
-    const candidates = Array.from(
-      { length: Math.floor(Math.random() * 10) },
-      () => pickRandom(words)
-    );
-
-    const lines = candidates.map((candidate) =>
-      evaluateWord(solution, candidate)
-    );
-    const c = createEmptyConstraint(words[0].length);
-    lines
-      .map(lineToU)
-      .forEach(({ u, evaluation }) => addConstraintLine(c, u, evaluation));
-
-    for (const w of words) {
-      if (
-        isValid(c, wordToU(w)) !== lines.every((line) => isValidWord(line, w))
-      ) {
-        console.log(c, lines);
-
-        debugger;
-
-        isValid(c, wordToU(w));
-
-        expect(false).toBe(true);
-      }
-    }
-  }
-});
-
 it("always valid", async () => {
   const words = await getWordList();
 
-  const pm = new ParkMiller(1125930121009);
-  Math.random = () => pm.float();
+  mockMathRandom();
 
   for (let i = 2000; i--; ) {
-    const solution = words[Math.floor(Math.random() * words.length)];
+    const solution = pickRandom(words);
 
     const c = createEmptyConstraint(5);
 
     const xs = [];
 
     for (let i = 20; i--; ) {
-      const candidate = words[Math.floor(Math.random() * words.length)];
+      const candidate = pickRandom(words);
 
       const line = evaluateWord(solution, candidate);
 
@@ -156,26 +118,20 @@ it("always valid 2", async () => {
   const words: string[] = [];
   const n = 8;
 
-  const pm = new ParkMiller(1125930121009);
-  Math.random = () => pm.float();
+  mockMathRandom();
 
   for (let i = 2000; i--; )
-    words.push(
-      Array.from(
-        { length: n },
-        () => alphabet[Math.floor(Math.random() * alphabet.length)]
-      ).join("")
-    );
+    words.push(Array.from({ length: n }, () => pickRandom(alphabet)).join(""));
 
   for (let i = 20000; i--; ) {
-    const solution = words[Math.floor(Math.random() * words.length)];
+    const solution = pickRandom(words);
 
     const c = createEmptyConstraint(n);
 
     const xs = [];
 
     for (let i = 20; i--; ) {
-      const candidate = words[Math.floor(Math.random() * words.length)];
+      const candidate = pickRandom(words);
 
       const line = evaluateWord(solution, candidate);
 

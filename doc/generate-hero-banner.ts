@@ -7,12 +7,13 @@ import {
   isLineCorrect,
 } from "../src/solver-simple";
 import { evaluationToSquare } from "../src/type";
+import { pickRandom } from "../src/utils.array";
 
 (async () => {
   const wordList = (await getWordList()).slice(0, 2000);
 
   const grids = Array.from({ length: 60 }, () => {
-    const solution = wordList[Math.floor(Math.random() * wordList.length)];
+    const solution = pickRandom(wordList);
 
     const solver = createSolver(wordList);
 

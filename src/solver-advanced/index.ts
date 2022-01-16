@@ -8,7 +8,7 @@ import {
   evaluateWord,
   isValid,
   reduceConstraint,
-} from "./contraint";
+} from "./constraint";
 import { Evaluation, Letter, lineToU, uToWord, wordToU } from "./type";
 
 const CANDIDATE_SAMPLE_N = 200;

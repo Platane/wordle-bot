@@ -7,7 +7,7 @@ import {
   createEmptyConstraint,
   isValid,
   reduceConstraint,
-} from "../contraint";
+} from "../constraint";
 import { Evaluation, lineToU, wordToU } from "../type";
 
 it("should contraint", () => {

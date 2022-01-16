@@ -2,7 +2,7 @@ import { createSolver, evaluateWord, isLineCorrect } from "../index";
 import { Line, lineToString } from "../../type";
 import { getWordList } from "../../wordlist";
 import { pickRandom } from "../../utils.array";
-import { mockMathRandom } from "../../utils-pseudoRandom";
+import { mockMathRandom } from "../../utils.pseudoRandom";
 
 it("solver", async () => {
   const words = await getWordList();

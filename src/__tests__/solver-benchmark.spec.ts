@@ -3,7 +3,7 @@ import { createSolver as createAdvancedSolver } from "../solver-advanced";
 import { evaluateWord, isLineCorrect } from "../solver-simple";
 import { getWordList } from "../wordlist";
 import { pickRandom } from "../utils.array";
-import { mockMathRandom } from "../utils-pseudoRandom";
+import { mockMathRandom } from "../utils.pseudoRandom";
 
 jest.setTimeout(60 * 1000);
 

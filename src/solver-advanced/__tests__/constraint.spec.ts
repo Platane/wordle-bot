@@ -1,5 +1,5 @@
 import { evaluateWord } from "../../solver-simple";
-import { mockMathRandom } from "../../utils-pseudoRandom";
+import { mockMathRandom } from "../../utils.pseudoRandom";
 import { pickRandom } from "../../utils.array";
 import { getWordList } from "../../wordlist";
 import {

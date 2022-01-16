@@ -1,5 +1,5 @@
-import { evaluateWord } from "../solver";
-import { Line } from "../type";
+import { evaluateWord } from "../index";
+import { Line } from "../../type";
 
 const target: Line = [
   { letter: "a", evaluation: "present" },

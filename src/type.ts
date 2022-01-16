@@ -4,9 +4,6 @@ export type Tile = {
 };
 export type Line = Tile[];
 
-export const isLineCorrect = (line: Line) =>
-  line.every((t) => t.evaluation === "correct");
-
 export const tileToString = ({ letter, evaluation }: Tile) =>
   letter + evaluationToSquare(evaluation);
 

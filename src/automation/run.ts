@@ -2,7 +2,7 @@ import puppeteer from "puppeteer";
 import * as path from "path";
 import { tmpdir } from "os";
 import { PuppeteerScreenRecorder } from "puppeteer-screen-recorder";
-import { isLineCorrect, Line } from "../type";
+import { Line } from "../type";
 import {
   getPlayedLines,
   getShareText,
@@ -60,7 +60,10 @@ export const run = async (
   let solver = createSolver(wordList);
   playedLines.forEach(solver.reportLine);
 
-  while (playedLines.length < n && !playedLines.some(isLineCorrect)) {
+  while (
+    playedLines.length < n &&
+    !playedLines.some((line) => line.every((x) => x.evaluation === "correct"))
+  ) {
     // play next line
     const word = solver.getNextWord();
     try {

@@ -142,3 +142,31 @@ export const isValid = (c: Constraint, word: ArrayLike<Letter>) => {
 
   return true;
 };
+
+const av = [false, false, false, false, false];
+export const evaluateWord = (
+  solution: ArrayLike<Letter>,
+  word: ArrayLike<Letter>,
+  target: Evaluation[]
+) => {
+  for (let i = 0; i < word.length; i++) {
+    if (word[i] === solution[i]) {
+      target[i] = Evaluation.correct;
+      av[i] = false;
+    } else {
+      target[i] = Evaluation.absent;
+      av[i] = true;
+    }
+  }
+
+  for (let i = 0; i < word.length; i++)
+    if (av[i])
+      for (let j = 0; j < word.length; j++)
+        if (word[j] === solution[i] && target[j] === Evaluation.absent) {
+          av[i] = false;
+          target[j] = Evaluation.present;
+          break;
+        }
+
+  return target;
+};

@@ -9,22 +9,24 @@ import {
   isValid,
   reduceConstraint,
 } from "./constraint";
-import { Evaluation, Letter, lineToU, uToWord, wordToU } from "./type";
+import { Evaluation, lineToU } from "./type";
 
-const CANDIDATE_SAMPLE_N = 200;
+const CANDIDATE_ANY_SAMPLE_N = 400;
+const CANDIDATE_VALID_SAMPLE_N = 200;
 const REFERENCE_SAMPLE_N = 5000;
 
-export const createSolver = (words_: string[]) => {
-  const words = words_.map(wordToU);
+export const createSolver = (_words: string[]) => {
+  const words = _words.slice();
+  shuffle(words);
   const validWords = words.slice();
 
   const c = createEmptyConstraint(words[0].length);
   const c0 = createEmptyConstraint(words[0].length);
 
   const reportLine = (line: Line) => {
-    const { u, evaluation } = lineToU(line);
+    const { word, evaluation } = lineToU(line);
 
-    addConstraintLine(c, u, evaluation);
+    addConstraintLine(c, word, evaluation);
 
     reduceConstraint(c);
 
@@ -33,14 +35,14 @@ export const createSolver = (words_: string[]) => {
   };
 
   let bestScore = 0;
-  let bestWord: ArrayLike<Letter>;
+  let bestWord: string;
   const evaluation = Array.from(
     { length: words[0].length },
     () => Evaluation.absent
   );
   const scoreCache = new Map<number, number>();
 
-  const testCandidate = (w: ArrayLike<Letter>) => {
+  const testCandidate = (w: string) => {
     let score = 0;
 
     scoreCache.clear();
@@ -71,21 +73,20 @@ export const createSolver = (words_: string[]) => {
   };
 
   const getNextWord = () => {
-    if (validWords.length < 3) return uToWord(validWords[0]);
+    if (validWords.length < 3) return validWords[0];
 
     bestScore = -Infinity;
+    shuffle(words);
+
     bestWord = words[0];
 
-    shuffle(words);
-    shuffle(validWords);
-
-    for (let i = Math.min(CANDIDATE_SAMPLE_N, words.length); i--; )
+    for (let i = Math.min(CANDIDATE_ANY_SAMPLE_N, words.length); i--; )
       testCandidate(words[i]);
 
-    for (let i = Math.min(CANDIDATE_SAMPLE_N, validWords.length); i--; )
+    for (let i = Math.min(CANDIDATE_VALID_SAMPLE_N, validWords.length); i--; )
       testCandidate(validWords[i]);
 
-    return uToWord(bestWord);
+    return bestWord;
   };
 
   return { reportLine, getNextWord };

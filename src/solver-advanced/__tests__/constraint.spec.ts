@@ -8,32 +8,32 @@ import {
   isValid,
   reduceConstraint,
 } from "../constraint";
-import { Evaluation, lineToU, wordToU } from "../type";
+import { Evaluation, lineToU } from "../type";
 
-it("should contraint", () => {
+it("should constraint", () => {
   const c = createEmptyConstraint(3);
 
-  addConstraintLine(c, wordToU("xxa"), [
+  addConstraintLine(c, "xxa", [
     Evaluation.absent,
     Evaluation.absent,
     Evaluation.present,
   ]);
 
-  expect(isValid(c, wordToU("yyy"))).toBe(false);
+  expect(isValid(c, "yyy")).toBe(false);
 
-  addConstraintLine(c, wordToU("axx"), [
+  addConstraintLine(c, "axx", [
     Evaluation.correct,
     Evaluation.absent,
     Evaluation.absent,
   ]);
 
-  expect(isValid(c, wordToU("ayy"))).toBe(true);
+  expect(isValid(c, "ayy")).toBe(true);
 });
 
 it("should reduce constraint", () => {
   const c = createEmptyConstraint(2);
 
-  addConstraintLine(c, wordToU("xa"), [Evaluation.absent, Evaluation.present]);
+  addConstraintLine(c, "xa", [Evaluation.absent, Evaluation.present]);
 
   expect(c.required.size).toBe(1);
   expect(c.slots[0].value).toBe(undefined);
@@ -47,13 +47,13 @@ it("should reduce constraint", () => {
 it("should add required", () => {
   const c = createEmptyConstraint(3);
 
-  addConstraintLine(c, wordToU("xax"), [
+  addConstraintLine(c, "xax", [
     Evaluation.absent,
     Evaluation.correct,
     Evaluation.absent,
   ]);
 
-  addConstraintLine(c, wordToU("axa"), [
+  addConstraintLine(c, "axa", [
     Evaluation.present,
     Evaluation.absent,
     Evaluation.absent,
@@ -61,7 +61,7 @@ it("should add required", () => {
 
   expect(c.required.size).toBe(0);
 
-  addConstraintLine(c, wordToU("axa"), [
+  addConstraintLine(c, "axa", [
     Evaluation.present,
     Evaluation.absent,
     Evaluation.present,
@@ -91,14 +91,14 @@ it("always valid", async () => {
 
       xs.push(x);
 
-      addConstraintLine(c, x.u, x.evaluation);
+      addConstraintLine(c, x.word, x.evaluation);
 
-      if (!isValid(c, wordToU(solution))) {
+      if (!isValid(c, solution)) {
         debugger;
 
         const c0 = createEmptyConstraint(5);
 
-        for (const { u, evaluation } of xs) {
+        for (const { word: u, evaluation } of xs) {
           0;
 
           addConstraintLine(c0, u, evaluation);
@@ -106,7 +106,7 @@ it("always valid", async () => {
           console.log(c0);
         }
 
-        expect(isValid(c, wordToU(solution))).toBe(true);
+        expect(isValid(c, solution)).toBe(true);
         return;
       }
     }
@@ -139,14 +139,14 @@ it("always valid 2", async () => {
 
       xs.push(x);
 
-      addConstraintLine(c, x.u, x.evaluation);
+      addConstraintLine(c, x.word, x.evaluation);
 
-      if (!isValid(c, wordToU(solution))) {
+      if (!isValid(c, solution)) {
         debugger;
 
         const c0 = createEmptyConstraint(n);
 
-        for (const { u, evaluation } of xs) {
+        for (const { word: u, evaluation } of xs) {
           0;
 
           addConstraintLine(c0, u, evaluation);
@@ -154,7 +154,7 @@ it("always valid 2", async () => {
           console.log(c0);
         }
 
-        expect(isValid(c, wordToU(solution))).toBe(true);
+        expect(isValid(c, solution)).toBe(true);
         return;
       }
     }

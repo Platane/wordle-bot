@@ -33,7 +33,7 @@ export const createSolver = (words_: string[]) => {
   };
 
   let bestScore = 0;
-  let bestWord: ArrayLike<Letter> | null = null;
+  let bestWord: ArrayLike<Letter>;
   const evaluation = Array.from(
     { length: words[0].length },
     () => Evaluation.absent
@@ -74,7 +74,7 @@ export const createSolver = (words_: string[]) => {
     if (validWords.length < 3) return uToWord(validWords[0]);
 
     bestScore = -Infinity;
-    bestWord = null;
+    bestWord = words[0];
 
     shuffle(words);
     shuffle(validWords);
@@ -85,8 +85,7 @@ export const createSolver = (words_: string[]) => {
     for (let i = Math.min(CANDIDATE_SAMPLE_N, validWords.length); i--; )
       testCandidate(validWords[i]);
 
-    if (bestWord) return uToWord(bestWord);
-    else return null;
+    return uToWord(bestWord);
   };
 
   return { reportLine, getNextWord };

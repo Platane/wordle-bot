@@ -1,5 +1,9 @@
 # Wordle Bot
 
+<p align="center">
+<img width="200px" src="./doc/profile.svg" style="border-radius:50%"/>
+</p>
+
 A bot who solves the daily [powerlanguage.co.uk/wordle](https://www.powerlanguage.co.uk/wordle/) and posts the result on twitter.
 
 - 🐦 [twitter account](https://twitter.com/OasisPlatane)

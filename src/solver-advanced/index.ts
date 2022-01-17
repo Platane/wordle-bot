@@ -13,7 +13,7 @@ import { Evaluation, lineToU } from "./type";
 
 const CANDIDATE_ANY_SAMPLE_N = 1000;
 const CANDIDATE_VALID_SAMPLE_N = 200;
-const REFERENCE_SAMPLE_N = 5000;
+const REFERENCE_SAMPLE_N = 6000;
 
 export const createSolver = (_words: string[]) => {
   const words = _words.slice();
@@ -52,7 +52,7 @@ export const createSolver = (_words: string[]) => {
 
       evaluateWord(solution, w, evaluation);
 
-      const key = getEvaluationKey(evaluation);
+      const key = getEvaluationKey5(evaluation);
 
       let s = scoreCache.get(key);
 
@@ -105,6 +105,13 @@ const getScore = (c: Constraint) => {
 
   return score;
 };
+
+const getEvaluationKey5 = (evaluation: Evaluation[]) =>
+  evaluation[0] +
+  evaluation[1] * 4 +
+  evaluation[2] * 16 +
+  evaluation[3] * 64 +
+  evaluation[4] * 256;
 
 const getEvaluationKey = (evaluation: Evaluation[]) => {
   let key = 0;

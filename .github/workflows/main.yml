@@ -31,8 +31,11 @@ jobs:
 
       - run: pnpm test
 
-      - uses: crazy-max/ghaction-github-pages@v2
+      - name: deploy gh-pages
+        uses: crazy-max/ghaction-github-pages@v2
         if: success() && github.ref == 'refs/heads/master'
         with:
           target_branch: gh-pages
           build_dir: src/media-player
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

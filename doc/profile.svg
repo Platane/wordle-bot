@@ -4,8 +4,78 @@ xmlns="http://www.w3.org/2000/svg"
 version="1.1" 
 xmlns:xlink="http://www.w3.org/1999/xlink" 
 viewBox="240 60 400 400"
-style="background-image: radial-gradient(#4B4B4B, #2B2B27);">
+>
 
+
+ <mask id="circle-mask">
+   <circle cx="440" cy="260" r="200" fill="white"/>
+  </mask>
+
+<style>
+
+
+@keyframes look-animation {
+  0% {
+    transform: translate(0px,0px);
+  }
+  30% {
+    transform: translate(0px,0px);
+  }
+  34% {
+    transform: translate(-10px,6px);
+  }
+  39% {
+    transform: translate(-10px,6px);
+  }
+  40.5% {
+    transform: translate(0px,0px);
+  }
+  43% {
+    transform: translate(0px,0px);
+  }
+  44.5% {
+    transform: translate(-10px,6px);
+  }
+  53% {
+    transform: translate(-10px,6px);
+  }
+  57% {
+    transform: translate(1px,-4px);
+  }
+  62% {
+    transform: translate(1px,-4px);
+  }
+  65% {
+    transform: translate(0px,0px);
+  }
+  85% {
+    transform: translate(0px,0px);
+  }
+  90% {
+    transform: translate(0px,12px) scale(0.9,0.4);
+  }
+  97% {
+    transform: translate(0px,12px) scale(0.9,0.4);
+  }
+  98% {
+    transform: translate(0px,-4px) scale(1,0.9);
+  }
+  99% {
+    transform: translate(0px,2px) scale(1,1);
+  }
+  100% {
+    transform: translate(0px,0px);
+  }
+}
+#eye-left,#eye-right{
+    animation: look-animation 10s infinite
+}
+</style>
+
+
+<g id="background" mask="url(#circle-mask)"  >
+
+<rect x="240" y="60" width="400" height="400" fill="#4B4B4B"/>
 
 <path fill="#7E7E7E"  d="
 M 247.75 520.8
@@ -122,8 +192,8 @@ L 463 245.6 463 258.75 478.65 258.75 478.65 245.6 Z"/>
 
 
 
-<circle id="eye-left" cx="396" cy="196" r="11" fill="#6D6D6D"/>
+<circle id="eye-left" cx="396" cy="196" r="11" fill="#6D6D6D" style="transform-origin:396px 196px"/>
 
-<circle id="eye-right" cx="484" cy="196" r="11" fill="#6D6D6D"/>
-
+<circle id="eye-right" cx="484" cy="196" r="11" fill="#6D6D6D" style="transform-origin:484px 196px"/>
+</g>
 </svg>

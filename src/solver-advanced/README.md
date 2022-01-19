@@ -1,31 +1,45 @@
 # Solver Advanced
 
-Simpler solver to serve as a baseline.
+This solver is based on min-max.
 
-# Algorithm
+# Algorithm (min-max)
 
-Maintains a list of valid words : ie words that are compatible with the played lines.
+To pick the next word:
 
-To select the next word:
+Pick N word candidates. For each determine an heuristic score. The score is higher when the candidate is more likely to win now, or in the next turns.
 
-- if there is only one valid word, return it
+Choose the word with the highest score.
 
-- pick N candidate from the list of words ( valid or not valid )
+> note: It would be ideal to check every word as candidate. Unfortunately it is too slow. N can be tuned to have fast and sub-optimal solution, or slow and optimal solution.
 
-  > it would be ideal to check the whole list, but it's usually not performant enough.
-
-- for each candidate, determine an heuristic. Take the candidate with the best heuristic
+> note: Notice that we pick candidates that might not respect the already played lines constraint.
+>
+> In that case we know that the candidate is not a valid solution. However it might be that this candidate is the best at collecting hints, and our best chance to win next round.
 
 **heuristic**
 
-A good heuristic is: "if I play this line, how many words can I remove the valid list, in average"
+Or how to determine how desirable the candidate is ?
 
-To compute that, we need to consider each word in the valid list. Each one have a 1 / valid_list_length probability to be the solution. In that case what will be the result of playing this line. And how many word are removed from the valid list then.
+- from the list of all possible word and from the result of previously played lines, we generate the list of potential solutions ( = all the word that still respect the played line constraint ). Let's assume each potential solution of that list have the same probability of being the actual solution.
 
-This is quite expensive as we need to traverse the word list twice for each N candidate.
+- for a given candidate, let's iterate over the list of potential solution. Considering a solution, what would be the game answer ( ex: first letter is correct, second letter is absent ... ). And from that answer, how many potential solution can we discard.
 
-As word yielding the same result ( ex: 1 -> absent, 2 -> present ect ... ) will have the same number of words removed, this can be cached to speed things up.
+- let's assume the more we discard potential solution, the better. Let's then compute the average number of discarded elements over the list of potential solution. This number is a suitable heuristic, the hight it is, the better.
 
----
+> notes: Notice that in a min-max algorithm we could go a step further and simulate the next play as well. Let's not do that as the complexity blows pretty quickly.
 
-A faster heuristic is used. It does not compute the number of word removed, but instead is based on the result of ( ex: 1 -> absent, 2 -> present ect ... ).
+> notes: picking the next word have a complexity of O( N \* potential_solution.length \* potential_solution.length ), in the worst cast O( N \* n² ) ( or O( n³ ) ) . It's not great.
+
+> notes: For a given candidate, when iterating over the list of potential solution, we might get the same game answer for different potential solutions. Since the number of discarded elements will then be the same. Let's cache the result to avoid expensively recomputing it.
+
+**heuristic - optimization**
+
+Let's attempt to reduce the complexity.
+
+Instead of counting the discarded elements (which requires to iterate over potential_solution ), get a score from the game answer ( ex: first letter is correct, second letter is absent ... ).
+
+In order to attribute a score to a game answer, let's introduce a new concept. It combines all the played lines and their game answer, and gives for each position the available letters.
+
+Let's say the less available letter for each position, the better.
+
+> notes: picking the next word then have complexity of O( N \* potential_solution.length ). Which allow to tune N up and test more candidate.

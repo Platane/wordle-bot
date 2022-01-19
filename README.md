@@ -15,7 +15,7 @@ A bot who solves the daily [powerlanguage.co.uk/wordle](https://www.powerlanguag
 
 The bot launches a browser instance with pupetteer and acts like a regular user.
 
-It runs every day at 9 GMT, thanks to [github action cron job](.github/solve-daily.yml).
+It runs every day at 9 GMT, thanks to [github action cron job](.github/workflows/solve-daily.yml).
 
 ## Solver
 

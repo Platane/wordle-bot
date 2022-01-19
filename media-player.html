@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html style="height: 100%; margin: 0">
+  <head> </head>
+  <body
+    style="
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    "
+  >
+    <video
+      id="video"
+      style="max-width: 100%"
+      autoplay
+      loop
+      controls
+      muted
+    ></video>
+
+    <a id="link">download</a>
+
+    <script>
+      const video = document.getElementById("video");
+      const videoUrl = new URLSearchParams(location.search).get("videoUrl");
+
+      const link = document.getElementById("link");
+      link.href = videoUrl;
+
+      fetch(videoUrl)
+        .then((res) => res.blob())
+        .then((blob) => {
+          blob.type = "video/mp4";
+          video.src = URL.createObjectURL(blob);
+          video.play();
+        });
+    </script>
+  </body>
+</html>

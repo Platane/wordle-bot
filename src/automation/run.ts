@@ -17,17 +17,27 @@ type Solver = {
 };
 export const run = async (
   createSolver: (wordList: string[]) => Solver,
-  wordList: string[]
+  wordList: string[],
+  localStorage0?: { statistics: string; gameState: string }
 ) => {
   const WORDLE_URL = "https://www.powerlanguage.co.uk/wordle";
   const browser = await puppeteer.launch({
     //
     // headless: false,
     defaultViewport: { width: 600, height: 600 },
+    args: [" --no-sandbox"],
   });
 
   const page = await browser.newPage();
   await mockClipboard(page);
+
+  // inject gameState and statistics from previous games
+  if (localStorage0)
+    await page.evaluateOnNewDocument(({ statistics, gameState }: any) => {
+      localStorage.setItem("statistics", statistics);
+      localStorage.setItem("gameState", gameState);
+    }, localStorage0);
+
   await page.goto(WORDLE_URL);
   await page.waitForTimeout(500);
 
@@ -90,14 +100,20 @@ export const run = async (
     }
   }
 
-  await page.waitForTimeout(200);
+  await page.waitForTimeout(300);
 
   await recorder.stop();
 
   // read the text that you get when you click the "share" button
   const sharedText = await getShareText(page);
 
+  // read statistics from localStorage
+  const localStorage_ = await page.evaluate(() => ({
+    statistics: localStorage.getItem("statistics"),
+    gameState: localStorage.getItem("gameState"),
+  }));
+
   await browser.close();
 
-  return { sharedText, playedLines, recordFile };
+  return { sharedText, playedLines, recordFile, localStorage: localStorage_ };
 };

@@ -10,9 +10,22 @@ export const tweetResult = async (sharedText: string, recordUrl: string) => {
   const twitterClient = getTwitterClient();
   const { data: firstTweet } = await twitterClient.v2.tweet(sharedText);
   // const mediaId = await twitterClient.v1.uploadMedia(res.recordFile);
+
+  // jsdelivr serves assets with correct mimetype (contrary to github raw)
+  const videoUrl = getJDelivrUrl(recordUrl);
+
   await twitterClient.v2.tweet({
-    text: `SPOILER: https://platane.github.io/wordle-bot/media-player.html?videoUrl=${recordUrl}`,
+    text: `SPOILER: ${videoUrl}`,
     // media: { media_ids: [mediaId] },
     reply: { in_reply_to_tweet_id: firstTweet.id },
   });
+};
+
+const getJDelivrUrl = (rawUrl: string) => {
+  const u = new URL(rawUrl);
+  const [_, repo, commitSha, filename] = u.pathname.match(
+    /^\/([^/]+\/[^/]+)\/blob\/([^/]+)\/(.*)$/
+  )!;
+
+  return `https://cdn.jsdelivr.net/gh/${repo}@${commitSha}/${filename}`;
 };

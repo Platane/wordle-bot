@@ -22,10 +22,10 @@ jobs:
           node-version: 16
           cache: pnpm
 
-      - run: pnpm install @platane/wordle-bot
+      - run: pnpm install platane-wordle-bot
 
       - run: pnpm twitter-refresh
-        working-directory: node_modules/@platane/wordle-bot
+        working-directory: node_modules/platane-wordle-bot
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
           TWITTER_CLIENT_ID: ${{ secrets.TWITTER_CLIENT_ID }}
@@ -33,7 +33,7 @@ jobs:
           TWITTER_REFRESH_TOKEN: ${{ secrets.TWITTER_REFRESH_TOKEN }}
 
       - run: pnpm solve
-        working-directory: node_modules/@platane/wordle-bot
+        working-directory: node_modules/platane-wordle-bot
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -32,7 +32,7 @@
     }
   },
   "scripts": {
-    "build": "ncc build src/twitter/auth.ts -o dist/twitter-auth && ncc build src/twitter/refresh.ts -o dist/twitter-refresh && ncc build src/index.ts -o dist/solve -e puppeteer -e puppeteer-screen-recorder && node -e \"const pkg=require('./package.json');console.log(JSON.stringify({name:'@platane/wordle-bot',private:false,version:pkg.version+'-'+process.env.GITHUB_RUN_NUMBER,dependencies:{puppeteer:pkg.dependencies.puppeteer,'puppeteer-screen-recorder':pkg.dependencies['puppeteer-screen-recorder']},scripts:{solve:'node solve/index.js','twitter-refresh':'node twitter-refresh/index.js','twitter-auth':'node twitter-auth/index.js'}}))\" > dist/package.json ",
+    "build": "ncc build src/twitter/auth.ts -o dist/twitter-auth && ncc build src/twitter/refresh.ts -o dist/twitter-refresh && ncc build src/index.ts -o dist/solve -e puppeteer -e puppeteer-screen-recorder && node -e \"const pkg=require('./package.json');console.log(JSON.stringify({name:'platane-wordle-bot',version:pkg.version+'-'+process.env.GITHUB_RUN_NUMBER,dependencies:{puppeteer:pkg.dependencies.puppeteer,'puppeteer-screen-recorder':pkg.dependencies['puppeteer-screen-recorder']},scripts:{solve:'node solve/index.js','twitter-refresh':'node twitter-refresh/index.js','twitter-auth':'node twitter-auth/index.js'}}))\" > dist/package.json ",
     "twitter-auth": "sucrase-node src/twitter/auth.ts",
     "twitter-refresh": "sucrase-node src/twitter/refresh.ts",
     "start": "sucrase-node src/index.ts",

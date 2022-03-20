@@ -14,31 +14,37 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 6
+
       - uses: actions/setup-node@v2
         with:
           node-version: 16
-          cache: pnpm
 
-      - run: pnpm install --frozen-lockfile
-
-      - name: cache word list
+      - name: restore build from cache
         uses: actions/cache@v2
+        id: cache
         with:
-          path: node_modules/wordList-cache.txt
-          key: wordList-cache
-          restore-keys: wordList-cache
+          path: dist
+          key: build-${{ runner.os }}
 
-      - run: pnpm twitter-refresh
+      - name: build from sources if cache miss
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          npm install -g pnpm
+          pnpm install --frozen-lockfile
+          pnpm build
+
+      - run: node dist/twitter-refresh/index.js
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
           TWITTER_CLIENT_ID: ${{ secrets.TWITTER_CLIENT_ID }}
           TWITTER_CLIENT_SECRET: ${{ secrets.TWITTER_CLIENT_SECRET }}
           TWITTER_REFRESH_TOKEN: ${{ secrets.TWITTER_REFRESH_TOKEN }}
 
-      - run: pnpm start
+      - run: |
+          ls
+          npm install
+          node index.js
+        working-directory: dist/solve
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

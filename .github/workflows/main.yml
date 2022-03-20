@@ -3,7 +3,7 @@ name: main
 on: [push]
 
 jobs:
-  test:
+  test-and-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,3 +30,11 @@ jobs:
       - run: pnpm lint
 
       - run: pnpm test
+
+      - name: restore build from cache
+        uses: actions/cache@v2
+        with:
+          path: dist
+          key: build-${{ runner.os }}
+
+      - run: pnpm build

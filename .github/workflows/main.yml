@@ -31,12 +31,6 @@ jobs:
 
       - run: pnpm test
 
-      - name: restore build from cache
-        uses: actions/cache@v2
-        with:
-          path: dist
-          key: build-${{ runner.os }}
-
       - run: pnpm build
 
       - run: npm pack

@@ -37,7 +37,9 @@ jobs:
         working-directory: dist
 
       - name: npm publish
-        run: npm publish dist/*.tgz
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+          npm publish dist/*.tgz
         # if: success() && github.ref == 'refs/heads/master'
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

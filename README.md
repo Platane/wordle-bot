@@ -13,7 +13,7 @@ A bot who solves the daily [powerlanguage.co.uk/wordle](https://www.powerlanguag
 
 ## Automation
 
-The bot launches a browser instance with pupetteer and acts like a regular user.
+The bot launches a browser instance with pupetteer and acts like a regular user. _It even detects errors, [impressive](https://cdn.jsdelivr.net/gh/Platane/wordle-bot@5a9763b061f43cbe7cb42f98fa349c935817bfdf/Wordle-240.mp4) !_
 
 It runs every day at 9 GMT, thanks to [github action cron job](.github/workflows/solve-daily.yml).
 

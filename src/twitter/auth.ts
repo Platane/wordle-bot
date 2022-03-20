@@ -1,11 +1,10 @@
 import * as http from "http";
-import * as path from "path";
 import type { Socket } from "net";
 import TwitterApi from "twitter-api-v2";
 import "dotenv/config";
 import { writeDotEnv } from "./writeDotEnv";
 import { createSecretUpdater } from "github-secret-dotenv/lib/github";
-import { readPackageJson } from "github-secret-dotenv/lib/readPackageJson";
+import { getRepository } from "./getRepository";
 
 const CALLBACK_URL = "http://localhost:4194/callback";
 
@@ -74,7 +73,7 @@ const CALLBACK_URL = "http://localhost:4194/callback";
     console.log(data, { expiresIn });
   }
 
-  writeDotEnv(path.join(__dirname, "../../.env"), {
+  writeDotEnv(".env", {
     TWITTER_ACCESS_TOKEN: accessToken,
     TWITTER_REFRESH_TOKEN: refreshToken!,
   });
@@ -82,7 +81,7 @@ const CALLBACK_URL = "http://localhost:4194/callback";
   console.log("written to .env");
 
   const updateSecret = createSecretUpdater({
-    ...readPackageJson(path.join(__dirname, "../.."))!,
+    ...getRepository()!,
     githubAccessToken:
       process.env.GITHUB_ACCESS_TOKEN ?? process.env.GITHUB_TOKEN!,
   });

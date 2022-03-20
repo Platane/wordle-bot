@@ -13,32 +13,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 6
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 16
-          cache: pnpm
+      - run: npm install platane-wordle-bot
 
-      - run: pnpm install --frozen-lockfile
-
-      - name: cache word list
-        uses: actions/cache@v2
-        with:
-          path: node_modules/wordList-cache.txt
-          key: wordList-cache
-          restore-keys: wordList-cache
-
-      - run: pnpm twitter-refresh
+      - run: npm run twitter-refresh
+        working-directory: node_modules/platane-wordle-bot
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
           TWITTER_CLIENT_ID: ${{ secrets.TWITTER_CLIENT_ID }}
           TWITTER_CLIENT_SECRET: ${{ secrets.TWITTER_CLIENT_SECRET }}
           TWITTER_REFRESH_TOKEN: ${{ secrets.TWITTER_REFRESH_TOKEN }}
 
-      - run: pnpm start
+      - run: npm run solve
+        working-directory: node_modules/platane-wordle-bot
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

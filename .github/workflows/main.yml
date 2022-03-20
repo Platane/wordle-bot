@@ -3,7 +3,7 @@ name: main
 on: [push]
 
 jobs:
-  test:
+  test-and-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,3 +30,17 @@ jobs:
       - run: pnpm lint
 
       - run: pnpm test
+
+      - run: pnpm build
+
+      - run: npm pack
+        working-directory: dist
+
+      - name: npm publish
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+          mv dist/*.tgz pack.tgz
+          npm publish pack.tgz
+        # if: success() && github.ref == 'refs/heads/master'
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

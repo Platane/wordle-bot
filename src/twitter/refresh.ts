@@ -1,8 +1,7 @@
-import * as path from "path";
 import TwitterApi from "twitter-api-v2";
 import { writeDotEnv } from "./writeDotEnv";
 import { createSecretUpdater } from "github-secret-dotenv/lib/github";
-import { readPackageJson } from "github-secret-dotenv/lib/readPackageJson";
+import { getRepository } from "./getRepository";
 import "dotenv/config";
 
 /**
@@ -29,7 +28,7 @@ import "dotenv/config";
     console.log(data, { expiresIn });
   }
 
-  writeDotEnv(path.join(__dirname, "../../.env"), {
+  writeDotEnv(".env", {
     TWITTER_ACCESS_TOKEN: accessToken,
     TWITTER_REFRESH_TOKEN: refreshToken!,
   });
@@ -37,7 +36,7 @@ import "dotenv/config";
   console.log("written to .env");
 
   const updateSecret = createSecretUpdater({
-    ...readPackageJson(path.join(__dirname, "../.."))!,
+    ...getRepository()!,
     githubAccessToken:
       process.env.GITHUB_ACCESS_TOKEN ?? process.env.GITHUB_TOKEN!,
   });

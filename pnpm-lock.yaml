@@ -6,6 +6,7 @@ specifiers:
   '@types/jest': 27.4.1
   '@types/node': 16.11.11
   '@types/node-fetch': 2.5.11
+  '@vercel/ncc': 0.33.3
   dotenv: 16.0.0
   github-secret-dotenv: 1.1.4
   jest: 27.5.1
@@ -33,6 +34,7 @@ devDependencies:
   '@types/jest': 27.4.1
   '@types/node': 16.11.11
   '@types/node-fetch': 2.5.11
+  '@vercel/ncc': 0.33.3
   jest: 27.5.1
   prettier: 2.6.0
   sucrase: 3.20.3
@@ -907,6 +909,11 @@ packages:
       '@types/node': 16.11.11
     dev: false
     optional: true
+
+  /@vercel/ncc/0.33.3:
+    resolution: {integrity: sha512-JGZ11QV+/ZcfudW2Cz2JVp54/pJNXbsuWRgSh2ZmmZdQBKXqBtIGrwI1Wyx8nlbzAiEFe7FHi4K1zX4//jxTnQ==}
+    hasBin: true
+    dev: true
 
   /abab/2.0.5:
     resolution: {integrity: sha512-9IK9EadsbHo6jLWIpxpR6pL0sazTXV6+SQv25ZB+F7Bj9mJNaOc4nCRabwd5M/JwmUa8idz6Eci6eKfJryPs6Q==}

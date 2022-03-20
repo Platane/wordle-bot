@@ -44,6 +44,6 @@ jobs:
 
       - name: npm publish
         run: npm publish dist/*.tgz
-        if: success() && github.ref == 'refs/heads/master'
+        # if: success() && github.ref == 'refs/heads/master'
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

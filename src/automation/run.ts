@@ -20,10 +20,10 @@ export const run = async (
   wordList: string[],
   localStorage0?: { statistics: string; gameState: string }
 ) => {
-  const WORDLE_URL = "https://www.powerlanguage.co.uk/wordle";
+  const WORDLE_URL = "https://www.nytimes.com/games/wordle/index.html";
   const browser = await puppeteer.launch({
     //
-    // headless: false,
+    headless: false,
     defaultViewport: { width: 600, height: 600 },
     args: [" --no-sandbox"],
   });
@@ -41,8 +41,15 @@ export const run = async (
   await page.goto(WORDLE_URL);
   await page.waitForTimeout(500);
 
+  // close cookie consent
+  const rejectCookieButton = await page.$("#pz-gdpr-btn-reject");
+  if (rejectCookieButton) {
+    await rejectCookieButton.click();
+    await page.waitForTimeout(200);
+  }
+
   // close pop up
-  const closeButton = await page.$("pierce/.close-icon");
+  const closeButton = await page.$('[data-testid="icon-close"]');
   if (closeButton) {
     await closeButton.click();
     await page.waitForTimeout(200);

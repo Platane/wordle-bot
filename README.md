@@ -6,6 +6,8 @@
 
 A bot who solves the daily [powerlanguage.co.uk/wordle](https://www.powerlanguage.co.uk/wordle/) and posts the result on twitter.
 
+> 🚧 The layout has changed since the game move to NYT. Unfortunately the selector need to be updated, until them the bot is broken
+
 - 🐦 [twitter account](https://twitter.com/OasisPlatane)
 - 📚 [result archive](https://github.com/Platane/wordle-bot/tree/output)
 
